@@ -1,0 +1,1246 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title id="page-title">UKRSOFT — Корпоративный портал</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: url('win7_bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #1e5c8a;
+            color: #1a2a3a;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            perspective: 1200px;
+        }
+
+        /* Эффект Aero Glass Header */
+        header {
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.65) 0%, 
+                rgba(180, 210, 240, 0.35) 50%, 
+                rgba(130, 175, 215, 0.45) 51%, 
+                rgba(200, 230, 255, 0.65) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .company-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+        }
+        .logo-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(100, 180, 255, 0.6);
+        }
+
+        /* Главный экран */
+        .main-stage {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Стеклянные окна Aero Glass */
+        .win-window {
+            width: 100%;
+            max-width: 950px;
+            background: linear-gradient(135deg, rgba(245, 250, 255, 0.85) 0%, rgba(215, 232, 248, 0.78) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.45), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+                inset 0 15px 25px rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            height: 480px;
+            display: none;
+            flex-direction: column;
+            animation: aeroOpen 0.25s ease-out;
+            overflow-y: auto;
+        }
+        .win-window.active {
+            display: flex;
+        }
+
+        @keyframes aeroOpen {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            color: #002244;
+            font-size: 24px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 80, 160, 0.2);
+            padding-bottom: 8px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        h1 img, .start-item img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+        }
+
+        .slogan {
+            font-style: italic;
+            color: #123d66;
+            font-size: 16px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        /* Меню Пуск в стиле Vista */
+        .start-menu {
+            position: absolute;
+            bottom: 52px;
+            left: 10px;
+            width: 400px;
+            height: 460px;
+            background: rgba(20, 25, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            animation: vistaStartUp 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+            overflow: hidden;
+        }
+        .start-menu.open {
+            display: flex;
+        }
+
+        @keyframes vistaStartUp {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .vista-top-glow {
+            height: 4px;
+            background: linear-gradient(to right, transparent, #5ca0f8, transparent);
+        }
+
+        .start-menu-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .start-menu-left {
+            width: 62%;
+            padding: 10px 0;
+            background: rgba(15, 20, 28, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .start-item {
+            padding: 9px 15px;
+            font-size: 13px;
+            color: #e6f0ff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            transition: background 0.1s;
+        }
+        .start-item:hover {
+            background: linear-gradient(to right, rgba(55, 130, 210, 0.7), rgba(55, 130, 210, 0.2));
+            color: #ffffff;
+            border-left: 3px solid #8ab8f8;
+        }
+        .start-menu-right {
+            width: 38%;
+            background: rgba(10, 14, 20, 0.7);
+            padding: 15px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #a0c4e8;
+        }
+        .vista-sidebar-link {
+            color: #d0e4ff;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 4px 6px;
+            border-radius: 3px;
+            transition: background 0.1s;
+        }
+        .vista-sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        
+        .start-menu-logo-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+        }
+        .start-menu-logo-box img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 5px rgba(0,120,255,0.6));
+            margin-bottom: 4px;
+        }
+
+        .vista-search-box {
+            padding: 10px 12px;
+            background: rgba(10, 14, 20, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        .vista-search-box input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            padding: 6px 10px;
+            color: #fff;
+            font-size: 12px;
+            width: 100%;
+        }
+        .vista-search-box input::placeholder {
+            color: #a0c4e8;
+        }
+
+        /* 3D Flip Контейнер */
+        .flip-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .project-slide-card {
+            background: linear-gradient(135deg, rgba(245, 250, 255, 0.88) 0%, rgba(215, 232, 248, 0.88) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 1px 2px #fff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            transform: rotateY(0deg) translateZ(0px);
+            transition: transform 0.35s cubic-bezier(0.15, 0.85, 0.35, 1.2), opacity 0.25s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .project-slide-card.flipping {
+            transform: rotateY(-15deg) translateZ(-50px) scale(0.95);
+            opacity: 0.6;
+        }
+
+        .project-header-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .project-icon {
+            width: 54px;
+            height: 54px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid #fff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .project-icon img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+        .project-title {
+            color: #003366;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        }
+        .project-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1a2a3a;
+        }
+        .project-meta {
+            font-size: 13px;
+            background: rgba(255,255,255,0.85);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 4px solid #1c6ba0;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to bottom, #67b3e6 0%, #3882c4 50%, #1f61a1 51%, #2873b9 100%);
+            color: white;
+            padding: 8px 20px;
+            border: 1px solid #134170;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.25);
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.4);
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: linear-gradient(to bottom, #7bc2f2 0%, #4693d9 50%, #2871b8 51%, #3383cc 100%);
+        }
+
+        select, input, textarea {
+            padding: 8px 12px;
+            border: 1px solid #7a9ec2;
+            border-radius: 4px;
+            font-family: inherit;
+            background: rgba(255,255,255,0.9);
+            width: 100%;
+        }
+
+        /* Панель задач Aero Glass */
+        .taskbar {
+            height: 48px;
+            background: linear-gradient(to bottom, 
+                rgba(50, 75, 100, 0.8) 0%, 
+                rgba(15, 30, 45, 0.9) 50%,
+                rgba(8, 15, 25, 0.95) 51%,
+                rgba(12, 22, 35, 0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.45);
+            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            backdrop-filter: blur(15px);
+            z-index: 1001;
+        }
+
+        .taskbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .start-btn-orb {
+            width: 42px;
+            height: 42px;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .start-btn-orb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 150, 255, 0.8));
+        }
+        .start-btn-orb:hover img {
+            filter: drop-shadow(0 0 14px rgba(100, 200, 255, 1));
+            transform: scale(1.06);
+        }
+
+        .tb-support-btn {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            color: #ffffff;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tb-support-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .news-ticker-static {
+            background: rgba(0, 15, 30, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            padding: 4px 12px;
+            color: #e1f0ff;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2);
+        }
+
+        .tray {
+            color: #d8ecff;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-left: 1px solid rgba(255,255,255,0.25);
+            padding-left: 14px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .lang-select-tray {
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .lang-select-tray option {
+            background: #1c3d63;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <img src="logo_win7.png" alt="UKRSOFT Logo" class="company-logo-img">
+            <div class="logo-title" data-i18n="companyTitle">UKRSOFT Corporation</div>
+        </div>
+        <div style="font-size: 13px; color: #ffffff; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">Aero Portal v7.25</div>
+    </header>
+
+    <div class="main-stage">
+        
+        <!-- Вкладка: Главная -->
+        <div id="tab-main" class="win-window active">
+            <h1 data-i18n="mainHeader">Добро пожаловать в UKRSOFT Corporation</h1>
+            <div class="slogan" data-i18n="mainSlogan">Возрождение классической надежности, максимальное быстродействие и свобода цифровых технологий.</div>
+            
+            <div style="background: rgba(255,255,255,0.7); padding: 20px; border-radius: 8px; border: 1px solid rgba(0,60,120,0.2); margin-bottom: 20px;">
+                <h3 style="color: #003366; margin-bottom: 10px;" data-i18n="memoTitle">Официальный меморандум проекта</h3>
+                <p style="font-size: 15px; line-height: 1.6; color: #1a2a3a; margin-bottom: 12px;" data-i18n="memoText1">
+                    «UKRSOFT Corporation» — это независимое технологическое объединение, сфокусированное на разработке высокопроизводительных операционных систем, специализированного ПО и кроссплатформенных решений нового поколения.
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #1a2a3a;" data-i18n="memoText2">
+                    Наш флагманский проект <b>«ОКНА»</b> призван объединить легендарную эргономику и стабильность классических систем с передовыми стандартами безопасности, гибкой кастомизацией и минимальным потреблением системных ресурсов. Мы создаем программную среду, которая работает на пользователя, а не против него.
+                </p>
+            </div>
+
+            <div style="background: linear-gradient(to right, rgba(210,230,250,0.85), rgba(235,245,255,0.85)); padding: 18px; border-left: 5px solid #2b75b8; border-radius: 4px;">
+                <h4 style="color: #002244; margin-bottom: 6px;" data-i18n="targetTitle">🎯 Целевое назначение проекта:</h4>
+                <p style="font-size: 14px; color: #1a2a3a;" data-i18n="targetText">
+                    Развитие линейки операционных систем, оптимизация серверных комплексов, внедрение неинвазивного ИИ (UKRSOFT AI) и обеспечение учебных и промышленных учреждений универсальным и долговечным софтом.
+                </p>
+            </div>
+        </div>
+
+        <!-- Вкладка: Информация о проектах -->
+        <div id="tab-info" class="win-window">
+            <h1><img src="icon_info.png" alt="Инфо"> <span data-i18n="navInfo">Информация о проектах</span></h1>
+            <div class="flip-container">
+                
+                <div class="project-slide-card" id="slideCard">
+                    <!-- Динамические проекты -->
+                </div>
+
+                <div class="slider-controls">
+                    <button class="btn" onclick="prevProject()" data-i18n="btnPrev">⬅ Назад</button>
+                    <span id="slideIndicator" style="font-weight: bold; color: #003366; font-size: 14px;">1 из 10</span>
+                    <button class="btn" onclick="nextProject()" data-i18n="btnNext">Вперед ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка: Донат / Финансирование -->
+        <div id="tab-donate" class="win-window">
+            <h1 data-i18n="navDonate">Финансирование и Поддержка</h1>
+            
+            <div style="background: rgba(255,255,255,0.75); border: 1px solid rgba(0,80,160,0.2); padding: 25px; border-radius: 8px; text-align: center; margin-top: 15px;">
+                <h3 style="color: #003366; margin-bottom: 12px;">Временно недоступно</h3>
+                <p style="margin-bottom: 15px; color: #1a2a3a; font-size: 15px;">При желании сделать донат пишите на электронную почту корпорации UKRSOFT: <a href="mailto:ukrsoft.corporation.ua.it@gmail.com" style="color: #0066cc; font-weight: bold;">ukrsoft.corporation.ua.it@gmail.com</a></p>
+            </div>
+        </div>
+
+        <!-- Вкладка: Поддержка / Обратная связь с выбором почтового клиента -->
+        <div id="tab-support" class="win-window">
+            <h1 data-i18n="navSupport">Центр поддержки и связи</h1>
+            <p style="color: #1a2a3a;"><span data-i18n="supportDesc">Выберите удобный способ отправки на почту:</span> <b>ukrsoft.corporation.ua.it@gmail.com</b></p>
+            
+            <form id="supportForm" style="background: rgba(255,255,255,0.75); padding: 20px; border-radius: 8px; border: 1px solid rgba(0,60,120,0.2); margin-top: 15px; display: flex; flex-direction: column; gap: 12px;" onsubmit="sendSupportForm(event)">
+                <label style="color: #1a2a3a;">
+                    <b data-i18n="labelName">Ваше имя / Позывной:</b>
+                    <input type="text" id="supName" placeholder="Введите ваше имя..." required>
+                </label>
+                <label style="color: #1a2a3a;">
+                    <b>Ваш Email:</b>
+                    <input type="email" id="supEmail" placeholder="name@example.com" required>
+                </label>
+                <label style="color: #1a2a3a;">
+                    <b data-i18n="labelMsg">Сообщение для разработчиков:</b>
+                    <textarea id="supMsg" rows="4" placeholder="Опишите вопрос, предложение или отзыв о проекте..." required></textarea>
+                </label>
+                <button type="submit" class="btn" style="align-self: flex-start;" id="btnSendSupport" data-i18n="btnSend">Отправить сообщение</button>
+            </form>
+        </div>
+
+        <!-- Вкладка: Настройки -->
+        <div id="tab-settings" class="win-window">
+            <h1><img src="icon_settings.png" alt="Настройки"> <span data-i18n="navSettings">Настройки системы</span></h1>
+            <div style="display: flex; flex-direction: column; gap: 18px; max-width: 320px; margin-top: 15px;">
+                <label style="color: #1a2a3a;">
+                    <b data-i18n="labelLang">Язык системы / Language:</b><br>
+                    <select id="langSelect" style="width: 100%; margin-top: 5px;" onchange="changeLanguage(this.value)">
+                        <option value="RU">Русский (Russian)</option>
+                        <option value="IT">Italiano (Итальянский)</option>
+                        <option value="EN">English (Английский)</option>
+                        <option value="UA">Українська (Украинский)</option>
+                    </select>
+                </label>
+                <button class="btn" style="width: 160px;" onclick="alert(getLocalizedAlert('settingsAlert'))" data-i18n="btnSave">Сохранить</button>
+            </div>
+        </div>
+
+        <!-- Вкладка: Контакты -->
+        <div id="tab-contacts" class="win-window">
+            <h1><img src="logo_win7.png" alt="Контакты" style="width: 28px; height: 28px; object-fit: contain;"> <span data-i18n="navContacts">Контакты</span></h1>
+            <p style="color: #1a2a3a;"><b data-i18n="orgLabel">Организация:</b> UKRSOFT Corporation</p>
+            <p style="color: #1a2a3a;"><b data-i18n="supportEmailLabel">Email технической поддержки:</b> <code>ukrsoft.corporation.ua.it@gmail.com</code></p>
+            <p style="color: #1a2a3a;"><b data-i18n="dirEmailLabel">Email главного инженера и директора корпорации UKRSOFT:</b> <code>maksym.tanasenko.ukrsoft@gmail.com</code></p>
+            <p style="color: #1a2a3a;"><b data-i18n="domainLabel">Официальный домен:</b> www.UKRSOFT.corporation.com</p>
+        </div>
+
+        <!-- Вкладка: О проекте -->
+        <div id="tab-about" class="win-window">
+            <h1><img src="icon_about.png" alt="О проекте"> <span data-i18n="navAbout">История и миссия UKRSOFT</span></h1>
+            
+            <div style="background: rgba(255,255,255,0.75); padding: 22px; border-radius: 8px; border: 1px solid rgba(0,60,120,0.2); box-shadow: inset 0 1px 3px rgba(255,255,255,0.8);">
+                <p style="font-size: 15px; line-height: 1.7; color: #1a2a3a; margin-bottom: 14px;" data-i18n="aboutText1">
+                    <b>Помните 2009 год, когда вышла легендарная Windows 7?</b> Многие забыли, но я — нет. В последние годы выживать на Windows 7 становится всё сложнее: браузеры теряют поддержку, современные программы отказываются запускаться, да и сама система имела свои мелкие недоработки, которые порой бесили. Но несмотря на всё это, она остаётся лучшей и самой удобной ОС.
+                </p>
+                <p style="font-size: 15px; line-height: 1.7; color: #1a2a3a; margin-bottom: 14px;" data-i18n="aboutText2">
+                    История <b>UKRSOFT</b> началась в 2023 году — именно тогда, когда с Windows 7 начали массово уходить первые ключевые программы. За эти 3 года я перепробовал множество решений, и многие энтузиасты пытались спасти ситуацию, за что им огромное спасибо. Но всё это оставалось временными «костылями».
+                </p>
+                <p style="font-size: 15px; line-height: 1.7; color: #1a2a3a;" data-i18n="aboutText3">
+                    И тогда я понял: <b>нужно создавать своё...</b> Надеюсь, вы по достоинству оцените этот масштабный проект полностью бесплатного, удобного и надежного ПО!
+                </p>
+            </div>
+
+            <div style="margin-top: 15px; background: linear-gradient(to right, rgba(210,230,250,0.85), rgba(235,245,255,0.85)); padding: 14px 18px; border-left: 4px solid #2b75b8; border-radius: 4px; font-size: 13px; color: #002244; display: flex; justify-content: space-between; align-items: center;">
+                <div><b data-i18n="platformLabel">Платформа:</b> UKRSOFT Aero Vista Portal v7.25</div>
+                <div>© 2026 UKRSOFT Corporation</div>
+            </div>
+        </div>
+
+        <!-- 🪟 ВСПЛЫВАЮЩЕЕ МЕНЮ ПУСК В СТИЛЕ VISTA -->
+        <div class="start-menu" id="startMenu">
+            <div class="vista-top-glow"></div>
+            <div class="start-menu-body">
+                <div class="start-menu-left">
+                    <div class="start-item" onclick="openFromStart('tab-main')"><img src="start_orb.png" alt=""> <span data-i18n="navMain">Главная страница</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-info')"><img src="icon_info.png" alt=""> <span data-i18n="navInfo">Информация о проектах</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-donate')">💳 <span data-i18n="navDonate">Донат и финансирование</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-support')">💬 <span data-i18n="navSupport">Центр поддержки (Email)</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-settings')"><img src="icon_settings.png" alt=""> <span data-i18n="navSettings">Настройки системы</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-contacts')"><img src="icon_contacts.png" alt=""> <span data-i18n="navContacts">Контакты</span></div>
+                    <div class="start-item" onclick="openFromStart('tab-about')"><img src="icon_about.png" alt=""> <span data-i18n="navAbout">О проекте (История)</span></div>
+                </div>
+                <div class="start-menu-right">
+                    <div>
+                        <b style="color: #fff;" data-i18n="sideTitle">UKRSOFT</b>
+                        <div class="vista-sidebar-link" onclick="openFromStart('tab-main')" data-i18n="sidePortal">Корпоративный портал</div>
+                        <div class="vista-sidebar-link" onclick="openFromStart('tab-info')">ОКНА 7 / MT 6.1.1</div>
+                        <div class="vista-sidebar-link" onclick="openFromStart('tab-support')" data-i18n="sideFeedback">Обратная связь</div>
+                    </div>
+                    
+                    <div class="start-menu-logo-box">
+                        <img src="logo_win7.png" alt="UKRSOFT">
+                        <span style="font-size: 10px; color: #8ab8f8; font-weight: bold;">MT 6.1.1</span>
+                    </div>
+                </div>
+            </div>
+            <div class="vista-search-box">
+                <input type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Начать поиск по проектам UKRSOFT..." disabled>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Модальное окно выбора почтового сервиса в стиле Aero Glass -->
+    <div id="emailChoiceModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center;">
+        <div style="background: linear-gradient(135deg, rgba(245, 250, 255, 0.95) 0%, rgba(215, 232, 248, 0.95) 100%); border: 2px solid #fff; border-radius: 10px; padding: 25px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;">
+            <h3 style="color: #003366; margin-bottom: 15px;">Выберите способ отправки:</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn" onclick="openWebMail('gmail')">Открыть в Gmail (в браузере)</button>
+                <button class="btn" onclick="openWebMail('yandex')">Открыть в Яндекс.Почте</button>
+                <button class="btn" onclick="openWebMail('mailru')">Открыть в Mail.ru</button>
+                <button class="btn" onclick="openWebMail('system')">Системное приложение (mailto)</button>
+            </div>
+            <button class="btn" style="margin-top: 15px; background: linear-gradient(to bottom, #d9534f, #c9302c);" onclick="closeEmailModal()">Отмена</button>
+        </div>
+    </div>
+
+    <!-- Панель задач Aero Glass -->
+    <div class="taskbar">
+        <div class="taskbar-left">
+            <div class="start-btn-orb" onclick="toggleStartMenu()" title="Пуск UKRSOFT">
+                <img src="start_orb.png" alt="Пуск" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'#3a92e2\'><circle cx=\'12\' cy=\'12\' r=\'10\'/></svg>';">
+            </div>
+
+            <button class="tb-support-btn" onclick="showTab('tab-support')">💬 <span data-i18n="btnSupport">Поддержка</span></button>
+
+            <div class="news-ticker-static" data-i18n="newsLabel">НОВОСТИ</div>
+        </div>
+
+        <div class="tray">
+            <select class="lang-select-tray" id="trayLangSelect" onchange="changeLanguage(this.value)">
+                <option value="RU">RU</option>
+                <option value="IT">IT</option>
+                <option value="EN">EN</option>
+                <option value="UA">UA</option>
+            </select>
+            <span id="clock">18:45</span>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            RU: {
+                pageTitle: "UKRSOFT — Корпоративный портал",
+                companyTitle: "UKRSOFT Corporation",
+                mainHeader: "Добро пожаловать в UKRSOFT Corporation",
+                mainSlogan: "Возрождение классической надежности, максимальное быстродействие и свобода цифровых технологий.",
+                memoTitle: "Официальный меморандум проекта",
+                memoText1: "«UKRSOFT Corporation» — это независимое технологическое объединение, сфокусированное на разработке высокопроизводительных операционных систем, специализированного ПО и кроссплатформенных решений нового поколения.",
+                memoText2: "Наш флагманский проект <b>«ОКНА»</b> призван объединить легендарную эргономику и стабильность классических систем с передовыми стандартами безопасности, гибкой кастомизацией и минимальным потреблением системных ресурсов. Мы создаем программную среду, которая работает на пользователя, а не против него.",
+                targetTitle: "🎯 Целевое назначение проекта:",
+                targetText: "Развитие линейки операционных систем, оптимизация серверных комплексов, внедрение неинвазивного ИИ (UKRSOFT AI) и обеспечение учебных и промышленных учреждений универсальным и долговечным софтом.",
+                navMain: "Главная страница",
+                navInfo: "Информация о проектах",
+                navDonate: "Донат и финансирование",
+                navSupport: "Центр поддержки (Email)",
+                navSettings: "Настройки системы",
+                navContacts: "Контакты",
+                navAbout: "О проекте (История)",
+                sideTitle: "UKRSOFT",
+                sidePortal: "Корпоративный портал",
+                sideFeedback: "Обратная связь",
+                sideStatus: "Статус: Защита проекта",
+                searchPlaceholder: "Начать поиск по проектам UKRSOFT...",
+                btnSupport: "Поддержка",
+                newsLabel: "НОВОСТИ",
+                btnPrev: "⬅ Назад",
+                btnNext: "Вперед ➡",
+                supportDesc: "Выберите удобный способ отправки на почту:",
+                labelName: "Ваше имя / Позывной:",
+                labelMsg: "Сообщение для разработчиков:",
+                btnSend: "Отправить сообщение",
+                supportAlert: "Пожалуйста, заполните все поля формы поддержки!",
+                labelLang: "Язык системы / Language:",
+                btnSave: "Сохранить",
+                settingsAlert: "Настройки успешно применены!",
+                orgLabel: "Организация:",
+                supportEmailLabel: "Email технической поддержки:",
+                dirEmailLabel: "Email главного инженера и директора корпорации UKRSOFT:",
+                domainLabel: "Официальный домен:",
+                aboutText1: "<b>Помните 2009 год, когда вышла легендарная Windows 7?</b> Многие забыли, но я — нет. В последние годы выживать на Windows 7 становится всё сложнее: браузеры теряют поддержку, современные программы отказываются запускаться, да и сама система имела свои мелкие недоработки, которые порой бесили. Но несмотря на всё это, она остаётся лучшей и самой удобной ОС.",
+                aboutText2: "История <b>UKRSOFT</b> началась в 2023 году — именно тогда, когда с Windows 7 начали массово уходить первые ключевые программы. За эти 3 года я перепробовал множество решений, и многие энтузиасты пытались спасти ситуацию, за что им огромное спасибо. Но всё это оставалось временными «костылями».",
+                aboutText3: "И тогда я понял: <b>нужно создавать своё...</b> Надеюсь, вы по достоинству оцените этот масштабный проект полностью бесплатного, удобного и надежного ПО!",
+                platformLabel: "Платформа:"
+            },
+            IT: {
+                pageTitle: "UKRSOFT — Portale Aziendale",
+                companyTitle: "UKRSOFT Corporation",
+                mainHeader: "Benvenuti in UKRSOFT Corporation",
+                mainSlogan: "Rinascita dell'affidabilità classica, massime performance e libertà delle tecnologie digitali.",
+                memoTitle: "Memorandum Ufficiale del Progetto",
+                memoText1: "«UKRSOFT Corporation» è un'alleanza tecnologica indipendente focalizzata sullo sviluppo di sistemi operativi ad alte prestazioni, software specializzato e soluzioni cross-platform di nuova generazione.",
+                memoText2: "Il nostro progetto di punta <b>«OKNA»</b> mira a combinare l'ergonomia leggendaria e la stabilità dei sistemi classici con standard di sicurezza avanzati, personalizzazione flessibile e consumo minimo di risorse di sistema. Creiamo un ambiente software che lavora per l'utente, non contro di esso.",
+                targetTitle: "🎯 Obiettivo del Progetto:",
+                targetText: "Sviluppo della linea di sistemi operativi, ottimizzazione di complessi server, introduzione dell'IA non invasiva (UKRSOFT AI) e fornitura di software universale e duraturo a istituzioni educative e industriali.",
+                navMain: "Pagina Principale",
+                navInfo: "Informazioni sui Progetti",
+                navDonate: "Donazioni e Finanziamenti",
+                navSupport: "Centro Assistenza (Email)",
+                navSettings: "Impostazioni di Sistema",
+                navContacts: "Contatti",
+                navAbout: "Informazioni / Storia",
+                sideTitle: "UKRSOFT",
+                sidePortal: "Portale Aziendale",
+                sideFeedback: "Feedback",
+                sideStatus: "Stato: Protezione Progetto",
+                searchPlaceholder: "Cerca nei progetti UKRSOFT...",
+                btnSupport: "Supporto",
+                newsLabel: "NOTIZIE",
+                btnPrev: "⬅ Indietro",
+                btnNext: "Avanti ➡",
+                supportDesc: "Scegli il metodo di invio preferito:",
+                labelName: "Il tuo nome / Nominativo:",
+                labelMsg: "Messaggio per gli sviluppatori:",
+                btnSend: "Invia messaggio",
+                supportAlert: "Compila tutti i campi del modulo di supporto!",
+                labelLang: "Lingua di Sistema / Language:",
+                btnSave: "Salva",
+                settingsAlert: "Impostazioni applicate con successo!",
+                orgLabel: "Organizzazione:",
+                supportEmailLabel: "Email supporto tecnico:",
+                dirEmailLabel: "Email del Capo Ingegnere e Direttore di UKRSOFT:",
+                domainLabel: "Dominio ufficiale:",
+                aboutText1: "<b>Ricordi il 2009, quando è uscita la leggendaria Windows 7?</b> Molti se ne sono dimenticati, ma io no. Negli ultimi anni sopravvivere su Windows 7 è diventato sempre più difficile: i browser perdono supporto, i programmi moderni rifiutano di avviarsi. Ma nonostante tutto, rimane il sistema operativo migliore e più comodo.",
+                aboutText2: "La storia di <b>UKRSOFT</b> è iniziata nel 2023, proprio quando i primi programmi chiave hanno iniziato a lasciare Windows 7. In questi 3 anni ho provato molte soluzioni, ma erano solo 'soluzioni temporanee'.",
+                aboutText3: "E allora ho capito: <b>dobbiamo creare il nostro...</b> Spero apprezzerai questo grande progetto di software completamente gratuito, comodo e affidabile!",
+                platformLabel: "Piattaforma:"
+            },
+            EN: {
+                pageTitle: "UKRSOFT — Corporate Portal",
+                companyTitle: "UKRSOFT Corporation",
+                mainHeader: "Welcome to UKRSOFT Corporation",
+                mainSlogan: "Revival of classical reliability, maximum performance, and freedom of digital technologies.",
+                memoTitle: "Official Project Memorandum",
+                memoText1: "«UKRSOFT Corporation» is an independent technological alliance focused on developing high-performance operating systems, specialized software, and next-generation cross-platform solutions.",
+                memoText2: "Our flagship project <b>«OKNA»</b> aims to combine the legendary ergonomics and stability of classical systems with advanced security standards, flexible customization, and minimal system resource consumption. We create a software environment that works for the user, not against them.",
+                targetTitle: "🎯 Project Objective:",
+                targetText: "Development of operating systems line, server complexes optimization, implementation of non-invasive AI (UKRSOFT AI), and providing educational and industrial institutions with universal and durable software.",
+                navMain: "Main Page",
+                navInfo: "Project Information",
+                navDonate: "Donation & Funding",
+                navSupport: "Support Center (Email)",
+                navSettings: "System Settings",
+                navContacts: "Contacts",
+                navAbout: "About / History",
+                sideTitle: "UKRSOFT",
+                sidePortal: "Corporate Portal",
+                sideFeedback: "Feedback",
+                sideStatus: "Status: Project Protection",
+                searchPlaceholder: "Search UKRSOFT projects...",
+                btnSupport: "Support",
+                newsLabel: "NEWS",
+                btnPrev: "⬅ Back",
+                btnNext: "Next ➡",
+                supportDesc: "Choose preferred email method:",
+                labelName: "Your Name / Call Sign:",
+                labelMsg: "Message for Developers:",
+                btnSend: "Send message",
+                supportAlert: "Please fill in all support form fields!",
+                labelLang: "System Language / Language:",
+                btnSave: "Save",
+                settingsAlert: "Settings successfully applied!",
+                orgLabel: "Organization:",
+                supportEmailLabel: "Technical support email:",
+                dirEmailLabel: "Chief Engineer & Director of UKRSOFT email:",
+                domainLabel: "Official domain:",
+                aboutText1: "<b>Remember 2009 when legendary Windows 7 came out?</b> Many forgot, but I didn't. In recent years, surviving on Windows 7 has become harder: browsers lose support, modern programs refuse to run. But despite all this, it remains the best and most convenient OS.",
+                aboutText2: "The history of <b>UKRSOFT</b> began in 2023 when key programs started leaving Windows 7. Over these 3 years, I tried many solutions, but they were just temporary workarounds.",
+                aboutText3: "And then I realized: <b>we need to create our own...</b> I hope you appreciate this large-scale project of completely free, convenient, and reliable software!",
+                platformLabel: "Platform:"
+            },
+            UA: {
+                pageTitle: "UKRSOFT — Корпоративний портал",
+                companyTitle: "UKRSOFT Corporation",
+                mainHeader: "Ласкаво просимо до UKRSOFT Corporation",
+                mainSlogan: "Відродження класичної надійності, максимальна швидкодія та свобода цифрових технологій.",
+                memoTitle: "Офіційний меморандум проекту",
+                memoText1: "«UKRSOFT Corporation» — це незалежне технологічне об'єднання, сфокусоване на розробці високопродуктивних операційних систем, спеціалізованого ПЗ та кросплатформних рішень нового покоління.",
+                memoText2: "Наш флагманський проект <b>«ОКНА»</b> покликаний об'єднати легендарну ергономіку та стабільність класичних систем з передовими стандартами безпеки, гнучкою кастомізацією та мінімальним споживанням системних ресурсів. Ми створюємо програмне середовище, яке працює на користувача, а не проти нього.",
+                targetTitle: "🎯 Цільове призначення проекту:",
+                targetText: "Розвиток лінійки операційних систем, оптимізація серверних комплексів, впровадження неинвазивного ШІ (UKRSOFT AI) та забезпечення навчальних і промислових установ універсальним і довговічним софтом.",
+                navMain: "Головна сторінка",
+                navInfo: "Інформація про проекти",
+                navDonate: "Донат та фінансування",
+                navSupport: "Центр підтримки (Email)",
+                navSettings: "Налаштування системи",
+                navContacts: "Контакти",
+                navAbout: "Про проект (Історія)",
+                sideTitle: "UKRSOFT",
+                sidePortal: "Корпоративний портал",
+                sideFeedback: "Зворотній зв'язок",
+                sideStatus: "Статус: Захист проекту",
+                searchPlaceholder: "Почати пошук за проектами UKRSOFT...",
+                btnSupport: "Підтримка",
+                newsLabel: "НОВИНИ",
+                btnPrev: "⬅ Назад",
+                btnNext: "Вперед ➡",
+                supportDesc: "Оберіть зручний спосіб надсилання на пошту:",
+                labelName: "Ваше ім'я / Позивний:",
+                labelMsg: "Повідомлення для розробників:",
+                btnSend: "Надіслати повідомлення",
+                supportAlert: "Будь ласка, заповніть усі поля форми підтримки!",
+                labelLang: "Мова системи / Language:",
+                btnSave: "Зберегти",
+                settingsAlert: "Налаштування успішно застосовано!",
+                orgLabel: "Організація:",
+                supportEmailLabel: "Email технічної підтримки:",
+                dirEmailLabel: "Email головного інженера та директора корпорації UKRSOFT:",
+                domainLabel: "Офіційний домен:",
+                aboutText1: "<b>Пам'ятаєте 2009 рік, коли вийшла легендарна Windows 7?</b> Багато хто забув, але я — ні. В останні роки виживати на Windows 7 стає все складніше: браузери втрачають підтримку, сучасні програми відмовляються запускатися. Але попри все, вона залишається найкращою ОС.",
+                aboutText2: "Історія <b>UKRSOFT</b> почалася у 2023 році — саме тоді, коли з Windows 7 начали масово йти перші ключові програми. За ці 3 роки я перепробував безліч рішень, але все це залишалося тимчасовими «милицями».",
+                aboutText3: "І тоді я зрозумів: <b>потрібно створювати своє...</b> Сподіваюся, ви оціните цей масштабний проект повністю безкоштовного, зручного та надійного ПЗ!",
+                platformLabel: "Платформа:"
+            }
+        };
+
+        const projectsData = [
+            {
+                icon: "logo_win7.png",
+                bg: "win7_bg.jpg",
+                title: {
+                    RU: "1. ОКНА 7 — Флагманская универсальная ОС",
+                    IT: "1. OKNA 7 — OS Universale di Punta",
+                    EN: "1. OKNA 7 — Flagship Universal OS",
+                    UA: "1. ОКНА 7 — Флагманська універсальна ОС"
+                },
+                desc: {
+                    RU: "Инновационная операционная система с открытой архитектурой, вдохновленная классическим визуальным стилем и высокой стабильностью. Сочетает максимальную свободу кастомизации, эргономичность и встроенные мобильные функции.",
+                    IT: "Sistema operativo innovativo con architettura aperta, ispirato allo stile visivo classico e alla stabilità. Unisce massima libertà di personalizzazione, ergonomia e funzioni mobili integrate.",
+                    EN: "Innovative operating system with open architecture, inspired by classic visual style and stability. Combines maximum customization freedom, ergonomics, and built-in mobile functions.",
+                    UA: "Інноваційна операційна система з відкритою архітектурою, натхненна класичним візуальним стилем та високою стабільністю. Поєднує максимальну свободу кастомізації, ергономічність та вбудовані мобільні функції."
+                },
+                meta: {
+                    RU: "Поддержка всех видов приложений: Android, macOS, Windows, Linux, Windows Mobile, DOS | Ядро: MT 6.1.1 | Редакции: Professional, Ultimate, Enterprise | Статус: В процессе разработки",
+                    IT: "Supporto per tutti i tipi di app: Android, macOS, Windows, Linux, Windows Mobile, DOS | Kernel: MT 6.1.1 | Edizioni: Professional, Ultimate, Enterprise | Stato: In sviluppo",
+                    EN: "Support for all types of apps: Android, macOS, Windows, Linux, Windows Mobile, DOS | Kernel: MT 6.1.1 | Editions: Professional, Ultimate, Enterprise | Status: In development",
+                    UA: "Підтримка всіх видів додатків: Android, macOS, Windows, Linux, Windows Mobile, DOS | Ядро: MT 6.1.1 | Редакції: Professional, Ultimate, Enterprise | Статус: У процесі розробки"
+                }
+            },
+            {
+                icon: "logo_winxp.png",
+                bg: "bg_winxp.jpg",
+                title: {
+                    RU: "2. ОКНА XP — Высокостабильная ОС для критических задач",
+                    IT: "2. OKNA XP — OS Altamente Stabile per Attività Critiche",
+                    EN: "2. OKNA XP — Highly Stable OS for Critical Tasks",
+                    UA: "2. ОКНА XP — Високостабільна ОС для критичних завдань"
+                },
+                desc: {
+                    RU: "Операционная система, рассчитанная на круглосуточную непрерывную работу (24/7) и тяжелые вычислительные задачи, с интегрированными мобильными возможностями и поддержкой всех современных и классических платформ.",
+                    IT: "Sistema operativo progettato per il funzionamento continuo 24/7 e calcoli pesanti, con funzioni mobili integrate e supporto per tutte le piattaforme moderne e classiche.",
+                    EN: "Operating system designed for 24/7 continuous operation and heavy computing, with integrated mobile capabilities and support for all modern and classic platforms.",
+                    UA: "Операційна система, розрахована на цілодобову безперервну роботу (24/7) та важкі обчислення, з інтегрованими мобільними можливостями та підтримкою всіх сучасних і класичних платформ."
+                },
+                meta: {
+                    RU: "Поддержка всех видов приложений: Android, macOS, Windows, Linux, Windows Mobile, DOS | Ресурсы: Менее 1 ГБ ОЗУ | Статус: Ранняя фаза разработки",
+                    IT: "Supporto per tutti i tipi di app: Android, macOS, Windows, Linux, Windows Mobile, DOS | Risorse: Meno di 1 GB di RAM | Stato: Fase iniziale",
+                    EN: "Support for all types of apps: Android, macOS, Windows, Linux, Windows Mobile, DOS | Resources: Less than 1 GB RAM | Status: Early phase",
+                    UA: "Підтримка всіх видів додатків: Android, macOS, Windows, Linux, Windows Mobile, DOS | Ресурси: Менше 1 ГБ ОЗП | Статус: Рання фаза розробки"
+                }
+            },
+            {
+                icon: "logo_98.png",
+                bg: "wallpaper_98.jpg",
+                title: {
+                    RU: "3. ОКНА 98 — Легкая ОС для старых и слабых ПК",
+                    IT: "3. OKNA 98 — OS Leggera per PC Vecchi e Deboli",
+                    EN: "3. OKNA 98 — Lightweight OS for Old and Low-End PCs",
+                    UA: "3. ОКНА 98 — Легка ОС для старих та слабких ПК"
+                },
+                desc: {
+                    RU: "Ультралегкая операционная система на базе классической ретро-архитектуры. Специально спроектирована для работы на устаревшем и непроизводительном аппаратном обеспечении с минимальным потреблением системных ресурсов.",
+                    IT: "Sistema operativo ultra-leggero basato su un'architettura retro classica. Progettato specificamente per funzionare su hardware datato e poco potente con un consumo minimo di risorse.",
+                    EN: "Ultra-lightweight operating system based on classic retro architecture. Specially engineered to run on legacy and low-spec hardware with minimal system resource consumption.",
+                    UA: "Ультралегка операційна система на базі класичної ретро-архітектури. Спеціально спроектована для роботи на застарілому та непродуктивному апаратному забезпеченні з мінімальним споживанням системних ресурсів."
+                },
+                meta: {
+                    RU: "Совместимость: Слабое и ретро-железо, DOS, классическое ПО | Ядро: Ретро-архитектура 98 | Статус: Активное проектирование",
+                    IT: "Compatibilità: Hardware datato e retro, DOS, software classico | Kernel: Architettura Retro 98 | Stato: Progettazione attiva",
+                    EN: "Compatibility: Low-end and retro hardware, DOS, classic software | Kernel: Retro 98 Architecture | Status: Active design",
+                    UA: "Сумісність: Слабке та ретро-залізо, DOS, класичне ПЗ | Ядро: Ретро-архітектура 98 | Статус: Активне проектування"
+                }
+            },
+            {
+                icon: "logo_winser.png",
+                bg: "bg_winser.jpg",
+                title: {
+                    RU: "4. Линейка «ОКНА Сервер» — Промышленные и специальные ОС",
+                    IT: "4. Linea «OKNA Server» — OS Industriali e Speciali",
+                    EN: "4. «OKNA Server» Line — Industrial and Special OS",
+                    UA: "4. Лінійка «ОКНА Сервер» — Промислові та спеціальні ОС"
+                },
+                desc: {
+                    RU: "Высоконадежные серверные системы с глубокой оптимизацией, без лишних фоновых процессов. Потребление памяти — не более 512 МБ. Предназначены для серверных комплексов, промышленной автоматики и объектов специального назначения.",
+                    IT: "Sistemi server ad alta affidabilità con ottimizzazione profonda, senza processi in background superflui. Consumo di memoria inferiore a 512 MB. Destinati a complessi server, automazione industriale e oggetti speciali.",
+                    EN: "Highly reliable server systems with deep optimization, no unnecessary background processes. Memory consumption under 512 MB. Designed for server complexes, industrial automation, and special-purpose facilities.",
+                    UA: "Високонадійні серверні системи з глибокою оптимізацією, без зайвих фонових процесів. Споживання пам'яті — не більше 512 МБ. Призначені для серверних комплексів, промислової автоматики та об'єктів спеціального призначення."
+                },
+                subprojects: {
+                    RU: ["• ОКНА 4: Поддержка среды DOS, программирование и инженерные комплексы.", "• ОКНА 2000–2003: Базовая серверная платформа для локальных сетей.", "• ОКНА 2008: Расширенная корпоративная система с повышенной защитой."],
+                    IT: ["• OKNA 4: Supporto ambiente DOS, programmazione e complessi ingegneristici.", "• OKNA 2000–2003: Piattaforma server base per reti locali.", "• OKNA 2008: Sistema aziendale avanzato con protezione elevata."],
+                    EN: ["• OKNA 4: DOS environment support, programming and engineering complexes.", "• OKNA 2000–2003: Basic server platform for local networks.", "• OKNA 2008: Advanced enterprise system with enhanced security."],
+                    UA: ["• ОКНА 4: Підтримка середовища DOS, програмування та інженерні комплекси.", "• ОКНА 2000–2003: Базова серверна платформа для локальних мереж.", "• ОКНА 2008: Розширена корпоративна система з підвищеним захистом."]
+                },
+                meta: {
+                    RU: "Статус: Проектирование архитектуры",
+                    IT: "Stato: Progettazione dell'architettura",
+                    EN: "Status: Architecture design",
+                    UA: "Статус: Проектування архітектури"
+                }
+            },
+            {
+                icon: "logo_win10mob.png",
+                bg: "",
+                title: {
+                    RU: "5. ОКНА 10 Мобайл — Кроссплатформенная мобильная ОС",
+                    IT: "5. OKNA 10 Mobile — OS Mobile Cross-Platform",
+                    EN: "5. OKNA 10 Mobile — Cross-Platform Mobile OS",
+                    UA: "5. ОКНА 10 Мобайл — Кросплатформна мобільна ОС"
+                },
+                desc: {
+                    RU: "Операционная система для мобильных устройств с гибкой кастомизацией интерфейса и поддержкой всех ключевых программных экосистем.",
+                    IT: "Sistema operativo per dispositivi mobili con personalizzazione flessibile dell'interfaccia e supporto per tutti i principali ecosistemi software.",
+                    EN: "Operating system for mobile devices with flexible interface customization and support for all key software ecosystems.",
+                    UA: "Операційна система для мобільних пристроїв з гнучкою кастомізацією інтерфейсу та підтримкою всіх ключових програмних екосистем."
+                },
+                meta: {
+                    RU: "Совместимость: Запуск приложений Android, macOS, Windows, Linux, Windows Mobile и DOS на мобильных устройствах | Статус: R&D (исследования и разработка)",
+                    IT: "Compatibilità: Esecuzione di app Android, macOS, Windows, Linux, Windows Mobile e DOS | Stato: R&D (Ricerca e Sviluppo)",
+                    EN: "Compatibility: Running Android, macOS, Windows, Linux, Windows Mobile, and DOS apps on mobile devices | Status: R&D",
+                    UA: "Сумісність: Запуск додатків Android, macOS, Windows, Linux, Windows Mobile та DOS на мобільних пристроях | Статус: R&D (дослідження та розробка)"
+                }
+            },
+            {
+                icon: "logo_browsers.png",
+                bg: "logo_browsers.png",
+                title: {
+                    RU: "6. Линейка корпоративных браузеров",
+                    IT: "6. Linea di Browser Aziendali",
+                    EN: "6. Corporate Browser Lineup",
+                    UA: "6. Лінійка корпоративних браузерів"
+                },
+                desc: {
+                    RU: "Надежные веб-решения для любых поколений аппаратного обеспечения:",
+                    IT: "Soluzioni web affidabili per qualsiasi generazione di hardware:",
+                    EN: "Reliable web solutions for any hardware generation:",
+                    UA: "Надійні веб-рішення для будь-яких поколінь апаратного забезпечення:"
+                },
+                subprojects: {
+                    RU: ["• ESR Browser: На базе Mozilla с поддержкой ретро-систем.", "• eXPerience Browser: Скоростной браузер на Chromium с низким потреблением ОЗУ.", "• ADMIN Browser: Ультралегкий серверный браузер на собственном движке UKRSOFT Engine с поддержкой DOS."],
+                    IT: ["• ESR Browser: Basato su Mozilla con supporto per sistemi retro.", "• eXPerience Browser: Browser veloce su Chromium con basso consumo di RAM.", "• ADMIN Browser: Browser server ultra-leggero basato su UKRSOFT Engine con supporto DOS."],
+                    EN: ["• ESR Browser: Mozilla-based with retro systems support.", "• eXPerience Browser: Fast Chromium browser with low RAM usage.", "• ADMIN Browser: Ultra-lightweight server browser on custom UKRSOFT Engine with DOS support."],
+                    UA: ["• ESR Browser: На базі Mozilla з підтримкою ретро-систем.", "• eXPerience Browser: Швидкісний браузер на Chromium з низьким споживанням ОЗП.", "• ADMIN Browser: Ультралегкий серверний браузер на власному рушії UKRSOFT Engine з підтримкою DOS."]
+                },
+                meta: {
+                    RU: "Статус: Активная разработка",
+                    IT: "Stato: Sviluppo attivo",
+                    EN: "Status: Active development",
+                    UA: "Статус: Активна розробка"
+                }
+            },
+            {
+                icon: "logo_ai.png",
+                bg: "",
+                title: {
+                    RU: "7. UKRSOFT AI — Интеллектуальный ассистент",
+                    IT: "7. UKRSOFT AI — Assistente Intelligente",
+                    EN: "7. UKRSOFT AI — Intelligent Assistant",
+                    UA: "7. UKRSOFT AI — Інтелектуальний асистент"
+                },
+                desc: {
+                    RU: "Встроенный AI-модуль, спроектированный с принципом абсолютного ненавязывания. Абсолютно неинвазивный, легко отключаемый в один клик, но при этом максимально удобный и отзывчивый.",
+                    IT: "Modulo AI integrato progettato con il principio della non-intrusività assoluta. Totalmente non invasivo, disattivabile con un clic, ma estremamente comodo e reattivo.",
+                    EN: "Built-in AI module designed with the principle of absolute non-intrusiveness. Completely non-invasive, easily disabled in one click, yet extremely convenient and responsive.",
+                    UA: "Вбудований AI-модуль, спроектований з принципом абсолютного ненав'язування. Абсолютно неінвазивний, легко відключається в один клік, але при цьому максимально зручний і чуйний."
+                },
+                meta: {
+                    RU: "Статус: Активная фаза разработки (демонстрация готового прототипа от партнера)",
+                    IT: "Stato: Fase di sviluppo attiva (dimostrazione prototipo)",
+                    EN: "Status: Active development phase (prototype demonstration)",
+                    UA: "Статус: Активна фаза розробки (демонстрація готового прототипу від партнера)"
+                }
+            },
+            {
+                icon: "logo_office.png",
+                bg: "",
+                title: {
+                    RU: "8. UKRSOFT Office",
+                    IT: "8. UKRSOFT Office",
+                    EN: "8. UKRSOFT Office",
+                    UA: "8. UKRSOFT Office"
+                },
+                desc: {
+                    RU: "Фирменный легкий и оптимизированный пакет офисных приложений для редактирования документов, написания программного кода, создания медиаконтента и многое другое.",
+                    IT: "Pacchetto di applicazioni per ufficio leggero e ottimizzato per la modifica di documenti, scrittura di codice, creazione di contenuti multimediali e molto altro.",
+                    EN: "Branded lightweight and optimized office suite for document editing, coding, media content creation, and much more.",
+                    UA: "Фірмовий легкий та оптимізований пакет офісних додатків для редагування документів, написання програмного коду, створення медіаконтенту та багато іншого."
+                },
+                meta: {
+                    RU: "Статус: Проектирование и разработка",
+                    IT: "Stato: Progettazione e sviluppo",
+                    EN: "Status: Design and development",
+                    UA: "Статус: Проектування та розробка"
+                }
+            },
+            {
+                icon: "logo_layer.png",
+                bg: "",
+                title: {
+                    RU: "9. Экосистема совместимости UKRSOFT Layer",
+                    IT: "9. Ecosistema di Compatibilità UKRSOFT Layer",
+                    EN: "9. UKRSOFT Layer Compatibility Ecosystem",
+                    UA: "9. Екосистема сумісності UKRSOFT Layer"
+                },
+                desc: {
+                    RU: "Комплекс утилит и библиотек трансляции для запуска современных приложений, игр и установки актуальных драйверов на классические операционные системы.",
+                    IT: "Set di utilità e librerie di traduzione per eseguire app e giochi moderni e installare driver aggiornati su OS classici.",
+                    EN: "Set of utilities and translation libraries to run modern apps, games, and install actual drivers on classic operating systems.",
+                    UA: "Комплекс утиліт і бібліотек трансляції для запуску сучасних додатків, ігор та встановлення актуальних драйверів на класичні операційні системи."
+                },
+                meta: {
+                    RU: "Статус: Раннее прототипирование",
+                    IT: "Stato: Prototipazione iniziale",
+                    EN: "Status: Early prototyping",
+                    UA: "Статус: Раннє прототипування"
+                }
+            },
+            {
+                icon: "logo_suite.png",
+                bg: "",
+                title: {
+                    RU: "10. UKRSOFT Explorer",
+                    IT: "10. UKRSOFT Explorer",
+                    EN: "10. UKRSOFT Explorer",
+                    UA: "10. UKRSOFT Explorer"
+                },
+                desc: {
+                    RU: "Фирменный пакет приложений и проводник для удобной навигации, управления файлами и полного взаимодействия с экосистемой УКРСОФТ.",
+                    IT: "Pacchetto di applicazioni proprietario e file manager per una comoda navigazione, gestione dei file e interazione completa con l'ecosistema UKRSOFT.",
+                    EN: "Branded application package and explorer for convenient navigation, file management, and full interaction with the UKRSOFT ecosystem.",
+                    UA: "Фірмовий пакет додатків та провідник для зручної навігації, керування файлами та повної взаємодії з екосистемою UKRSOFT."
+                },
+                meta: {
+                    RU: "Статус: Долгосрочное планирование",
+                    IT: "Stato: Pianificazione a lungo termine",
+                    EN: "Status: Long-term planning",
+                    UA: "Статус: Довгострокове планування"
+                }
+            }
+        ];
+
+        let currentSlide = 0;
+        let currentLang = 'RU';
+        let currentFormData = { name: '', email: '', msg: '' };
+
+        function renderSlide() {
+            const card = document.getElementById('slideCard');
+            if(!card) return;
+            card.classList.add('flipping');
+
+            setTimeout(() => {
+                const p = projectsData[currentSlide];
+                
+                if (p.bg) {
+                    card.style.backgroundImage = `linear-gradient(rgba(245, 250, 255, 0.88), rgba(215, 232, 248, 0.88)), url('${p.bg}')`;
+                } else {
+                    card.style.backgroundImage = 'none';
+                }
+
+                let iconHtml = "";
+                if (/\.(png|jpe?g|webp|gif|svg)$/i.test(p.icon)) {
+                    iconHtml = `<img src="${p.icon}" alt="logo">`;
+                } else {
+                    iconHtml = p.icon;
+                }
+
+                let subHtml = "";
+                if (p.subprojects && p.subprojects[currentLang]) {
+                    subHtml = "<ul style='margin-left: 20px; margin-top: 8px; font-size: 13px; color: #1a2a3a;'>" + p.subprojects[currentLang].map(s => `<li>${s}</li>`).join('') + "</ul>";
+                }
+
+                card.innerHTML = `
+                    <div class="project-header-row">
+                        <div class="project-icon">${iconHtml}</div>
+                        <div class="project-title">${p.title[currentLang]}</div>
+                    </div>
+                    <div class="project-desc">
+                        ${p.desc[currentLang]}
+                        ${subHtml}
+                    </div>
+                    <div class="project-meta">⚙️ ${p.meta[currentLang]}</div>
+                `;
+                document.getElementById('slideIndicator').innerText = `${currentSlide + 1} из ${projectsData.length}`;
+                
+                card.classList.remove('flipping');
+            }, 180);
+        }
+
+        function nextProject() {
+            currentSlide = (currentSlide + 1) % projectsData.length;
+            renderSlide();
+        }
+
+        function prevProject() {
+            currentSlide = (currentSlide - 1 + projectsData.length) % projectsData.length;
+            renderSlide();
+        }
+
+        function toggleStartMenu() {
+            const menu = document.getElementById('startMenu');
+            menu.classList.toggle('open');
+        }
+
+        function openFromStart(tabId) {
+            document.getElementById('startMenu').classList.remove('open');
+            showTab(tabId);
+        }
+
+        function showTab(tabId) {
+            const windows = document.querySelectorAll('.win-window');
+            windows.forEach(win => win.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+
+            if(tabId === 'tab-info') {
+                renderSlide();
+            }
+        }
+
+        // Вызов нашего окна выбора почты при нажатии "Отправить"
+        async function sendSupportForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('supName').value.trim();
+            const email = document.getElementById('supEmail').value.trim();
+            const msg = document.getElementById('supMsg').value.trim();
+
+            if(!name || !email || !msg) {
+                alert(translations[currentLang].supportAlert);
+                return;
+            }
+
+            currentFormData = { name, email, msg };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `Сообщение от ${name}`,
+                        text: `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${msg}`,
+                        url: 'mailto:ukrsoft.corporation.ua.it@gmail.com'
+                    });
+                    return;
+                } catch (err) {
+                    // Если отменено — открываем Aero-окно выбора
+                }
+            }
+
+            document.getElementById('emailChoiceModal').style.display = 'flex';
+        }
+
+        function openWebMail(service) {
+            const targetEmail = 'ukrsoft.corporation.ua.it@gmail.com';
+            const subject = encodeURIComponent(`Сообщение поддержки от ${currentFormData.name}`);
+            const body = encodeURIComponent(`Имя/Позивной: ${currentFormData.name}\nEmail: ${currentFormData.email}\n\nСообщение:\n${currentFormData.msg}`);
+
+            let url = '';
+
+            if (service === 'gmail') {
+                url = `https://mail.google.com/mail/?view=cm&fs=1&to=${targetEmail}&su=${subject}&body=${body}`;
+            } else if (service === 'yandex') {
+                url = `https://mail.yandex.ru/compose?to=${targetEmail}&subject=${subject}&body=${body}`;
+            } else if (service === 'mailru') {
+                url = `https://e.mail.ru/compose/?to=${targetEmail}&subject=${subject}&body=${body}`;
+            } else if (service === 'system') {
+                url = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+            }
+
+            if (url) {
+                window.open(url, '_blank');
+            }
+            closeEmailModal();
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailChoiceModal').style.display = 'none';
+        }
+
+        function getLocalizedAlert(key) {
+            return translations[currentLang][key];
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            document.querySelectorAll('.lang-select-tray').forEach(s => s.value = lang);
+            const settingsSelect = document.getElementById('langSelect');
+            if(settingsSelect) settingsSelect.value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            renderSlide();
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${hours}:${minutes}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        renderSlide();
+    </script>
+</body>
+</html>
